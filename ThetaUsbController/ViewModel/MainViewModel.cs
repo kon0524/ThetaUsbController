@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using ThetaUsbController.Model;
+﻿using ThetaUsbController.Model;
 
 namespace ThetaUsbController.ViewModel
 {
@@ -49,6 +41,13 @@ namespace ThetaUsbController.ViewModel
             Mode = (int)ThetaMode.StillCaptureMode;
         }
 
-
+        /// <summary>
+        /// 接続・切断
+        /// </summary>
+        /// <param name="param"></param>
+        private void Connect(object param)
+        {
+            
+        }
     }
 }

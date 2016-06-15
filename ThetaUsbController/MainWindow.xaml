@@ -14,7 +14,7 @@
         </StackPanel>
         <TabControl SelectedIndex="{Binding Mode}">
             <TabItem Header="静止画" Width="80" Name="StillCaptureMode">
-                <UserControllA:StillCaptureControll />
+                <UserControllA:StillCaptureControll x:Name="StillCaptureUserControl" />
             </TabItem>
             <TabItem Header="動画" Width="80" Name="MovieMode">
                 <UserControllA:MovieControll />

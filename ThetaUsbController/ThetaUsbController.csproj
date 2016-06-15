@@ -70,6 +70,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\ThetaMode.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\StillCaptureViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\MovieControll.xaml.cs">
       <DependentUpon>MovieControll.xaml</DependentUpon>
