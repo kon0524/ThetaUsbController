@@ -14,6 +14,7 @@ namespace ThetaUsbController
             MainViewModel mainVM = new MainViewModel();
             mainVM.scVM = this.StillCaptureControl.DataContext as StillCaptureViewModel;
             mainVM.mVM = this.MovieControl.DataContext as MovieViewModel;
+            mainVM.scVM.mainVM = mainVM.mVM.mainVM = mainVM;
             this.DataContext = mainVM;
         }
     }

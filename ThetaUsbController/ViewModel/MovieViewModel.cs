@@ -8,6 +8,9 @@ namespace ThetaUsbController.ViewModel
 {
     public class MovieViewModel : ViewModelBase
     {
-
+        /// <summary>
+        /// メインVM
+        /// </summary>
+        public MainViewModel mainVM { get; set; }
     }
 }

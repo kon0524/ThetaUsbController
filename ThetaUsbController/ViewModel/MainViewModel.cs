@@ -1,4 +1,5 @@
-﻿using ThetaUsbController.Model;
+﻿using System.Windows.Input;
+using ThetaUsbController.Model;
 
 namespace ThetaUsbController.ViewModel
 {
@@ -43,21 +44,36 @@ namespace ThetaUsbController.ViewModel
         public MovieViewModel mVM { get; set; }
 
         /// <summary>
+        /// 接続・切断コマンド
+        /// </summary>
+        public ICommand Connect { get; set; }
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public MainViewModel()
         {
             IsConnected = false;
             Mode = (int)ThetaMode.StillCaptureMode;
+
+            Connect = new DelegateCommand(connectExecute, null);
         }
 
         /// <summary>
         /// 接続・切断
         /// </summary>
         /// <param name="param"></param>
-        private void Connect(object param)
+        private void connectExecute(object param)
         {
-            
+            if (IsConnected)
+            {   // 切断する
+                Theta.Disconnect();
+                IsConnected = false;
+            }
+            else
+            {   // 接続する
+                IsConnected = Theta.Connect();
+            }
         }
     }
 }

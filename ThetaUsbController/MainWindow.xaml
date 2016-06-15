@@ -10,7 +10,7 @@
     
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
-            <Button Content="接続・切断" />
+            <Button Content="接続・切断" Command="{Binding Connect}" />
         </StackPanel>
         <TabControl SelectedIndex="{Binding Mode}">
             <TabItem Header="静止画" Width="80" Name="StillCaptureMode">

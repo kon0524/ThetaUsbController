@@ -8,5 +8,9 @@ namespace ThetaUsbController.ViewModel
 {
     public class StillCaptureViewModel : ViewModelBase
     {
+        /// <summary>
+        /// メインVM
+        /// </summary>
+        public MainViewModel mainVM { get; set; }
     }
 }
