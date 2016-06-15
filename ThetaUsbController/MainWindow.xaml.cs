@@ -11,12 +11,10 @@ namespace ThetaUsbController
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainViewModel();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
+            MainViewModel mainVM = new MainViewModel();
+            mainVM.scVM = this.StillCaptureControl.DataContext as StillCaptureViewModel;
+            mainVM.mVM = this.MovieControl.DataContext as MovieViewModel;
+            this.DataContext = mainVM;
         }
     }
 }

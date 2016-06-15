@@ -4,20 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThetaUsbController"
-        xmlns:UserControllA="clr-namespace:ThetaUsbController.View"
+        xmlns:view="clr-namespace:ThetaUsbController.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="300">
     
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
-            <Button Content="接続・切断" Click="Button_Click" />
+            <Button Content="接続・切断" />
         </StackPanel>
         <TabControl SelectedIndex="{Binding Mode}">
             <TabItem Header="静止画" Width="80" Name="StillCaptureMode">
-                <UserControllA:StillCaptureControll x:Name="StillCaptureUserControl" />
+                <view:StillCaptureControll x:Name="StillCaptureControl" />
             </TabItem>
             <TabItem Header="動画" Width="80" Name="MovieMode">
-                <UserControllA:MovieControll />
+                <view:MovieControll x:Name="MovieControl" />
             </TabItem>
         </TabControl>
     </DockPanel>

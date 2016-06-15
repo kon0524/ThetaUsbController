@@ -33,6 +33,16 @@ namespace ThetaUsbController.ViewModel
         }
 
         /// <summary>
+        /// 静止画画面のVM
+        /// </summary>
+        public StillCaptureViewModel scVM { get; set; }
+
+        /// <summary>
+        /// 動画画面のVM
+        /// </summary>
+        public MovieViewModel mVM { get; set; }
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public MainViewModel()
