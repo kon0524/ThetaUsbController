@@ -11,6 +11,33 @@ namespace ThetaUsbController.Model
     public class Theta
     {
         /// <summary>
+        /// 露出プログラム
+        /// </summary>
+        public ExposureProgramMode Program
+        {
+            get
+            {
+                ExposureProgramMode mode = ExposureProgramMode.NormalProgram;
+                if (IsConnected)
+                {
+                    MtpResponse res = mtp.Execute(MtpOperationCode.GetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ExposureProgramMode }, null);
+                    mode = (ExposureProgramMode)BitConverter.ToUInt16(res.Data, 0);
+                }
+                return mode;
+            }
+
+            set
+            {
+                if (IsConnected)
+                {
+                    mtp.Execute(MtpOperationCode.SetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ExposureProgramMode }, BitConverter.GetBytes(((ushort)value)));
+                }
+            }
+        }
+
+
+
+        /// <summary>
         /// 露出値
         /// </summary>
         public int Ev

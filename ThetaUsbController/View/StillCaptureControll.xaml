@@ -8,11 +8,11 @@
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <Label DockPanel.Dock="Left" Content="撮影モード" Width="80" />
-                <ComboBox>
-                    <ComboBoxItem Content="オート" IsSelected="True" />
-                    <ComboBoxItem Content="ISO優先" />
-                    <ComboBoxItem Content="シャッター速度優先" />
+                <ComboBox SelectedIndex="{Binding ExposureProgram}">
                     <ComboBoxItem Content="マニュアル" />
+                    <ComboBoxItem Content="ノーマル" />
+                    <ComboBoxItem Content="シャッター優先" />
+                    <ComboBoxItem Content="ISO優先" />
                 </ComboBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top">
