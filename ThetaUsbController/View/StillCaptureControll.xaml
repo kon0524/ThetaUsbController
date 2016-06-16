@@ -42,8 +42,8 @@
             </DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <Label DockPanel.Dock="Left" Content="露出" Width="40" />
-                <TextBlock DockPanel.Dock="Left" Text="2000" Width="40" VerticalAlignment="Center" />
-                <Slider Minimum="-6" Maximum="6" SmallChange="1" />
+                <TextBlock DockPanel.Dock="Left" Text="{Binding Ev}" Width="40" VerticalAlignment="Center" />
+                <Slider Minimum="0" Maximum="12" Value="{Binding EvPos}" TickFrequency="1" SmallChange="1" LargeChange="1" IsSnapToTickEnabled="True" />
             </DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <Label DockPanel.Dock="Left" Content="ホワイトバランス" Width="80" />
@@ -52,6 +52,6 @@
                     <ComboBoxItem Content="晴天" />
                 </ComboBox>
             </DockPanel>
-            <Button Content="撮影" />
+            <Button Content="撮影" Command="{Binding Release}" />
         </DockPanel>
 </UserControl>

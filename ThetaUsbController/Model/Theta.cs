@@ -10,9 +10,39 @@ namespace ThetaUsbController.Model
     public static class Theta
     {
         /// <summary>
+        /// 露出値
+        /// </summary>
+        public static int Ev
+        {
+            get
+            {
+                int val = 0;
+                if (isConnected)
+                {
+                    MtpResponse res = mtp.Execute(MtpOperationCode.GetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ExposureBiasCompensation }, null);
+                    val = (int)BitConverter.ToInt16(res.Data, 0);
+                }
+                return val;
+            }
+
+            set
+            {
+                if (isConnected)
+                {
+                    mtp.Execute(MtpOperationCode.SetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ExposureBiasCompensation }, BitConverter.GetBytes(((short)value)));
+                }
+            }
+        }
+
+        /// <summary>
         /// 接続状態
         /// </summary>
         private static bool isConnected = false;
+
+        /// <summary>
+        /// ストレージID
+        /// </summary>
+        private static uint storageId = 0;
 
         /// <summary>
         /// MTPオブジェクト
@@ -48,6 +78,17 @@ namespace ThetaUsbController.Model
             mtp.Open(thetaId);
             isConnected = true;
 
+            // 静止画撮影モードにする
+            MtpResponse res;
+            res = mtp.Execute(MtpOperationCode.SetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.StillCaptureMode }, BitConverter.GetBytes(((ushort)0x0001)));
+
+            // 撮影モードをオートにする
+            res = mtp.Execute(MtpOperationCode.SetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ExposureProgramMode }, BitConverter.GetBytes(((ushort)0x0002)));
+
+            // ストレージIDを取得する
+            res = mtp.Execute(MtpOperationCode.GetStorageIDs, null, null);
+            storageId = MtpData.GetUInt32Array(res)[0];
+
             return true;
         }
 
@@ -64,6 +105,19 @@ namespace ThetaUsbController.Model
             isConnected = false;
 
             return;
+        }
+
+        /// <summary>
+        /// レリーズ押下
+        /// </summary>
+        /// <returns></returns>
+        public static bool Release()
+        {
+            if (isConnected)
+            {
+                mtp.Execute(MtpOperationCode.InitiateCapture, new uint[2] { 0, 0 }, null);
+            }
+            return true;
         }
     }
 }
