@@ -32,14 +32,12 @@ namespace ThetaUsbController.ViewModel
         /// <summary>
         /// 露出値
         /// </summary>
-        private int ev;
         public int Ev
         {
-            get { return ev; }
+            get { return theta.Ev; }
             set
             {
-                ev = value;
-                Theta.Ev = ev;
+                theta.Ev = value;
                 NotifyPropertyChanged("Ev");
             }
         }
@@ -55,10 +53,16 @@ namespace ThetaUsbController.ViewModel
         private int[] supportedEvValue = new int[] { -2000, -1700, -1300, -1000, -700, -300, 0, 300, 700, 1000, 1300, 1700, 2000};
 
         /// <summary>
+        /// THETA
+        /// </summary>
+        private Theta theta;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public StillCaptureViewModel()
         {
+            theta = Theta.GetInstance();
             EvPos = 6;
             Release = new DelegateCommand(releaseExecute, null);
         }
@@ -69,7 +73,7 @@ namespace ThetaUsbController.ViewModel
         /// <param name="param"></param>
         private void releaseExecute(object param)
         {
-            Theta.Release();
+            theta.Release();
         }
     }
 }

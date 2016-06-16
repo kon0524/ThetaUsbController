@@ -6,20 +6,6 @@ namespace ThetaUsbController.ViewModel
     public class MainViewModel : ViewModelBase
     {
         /// <summary>
-        /// 接続状態
-        /// </summary>
-        private bool isConnected;
-        public bool IsConnected
-        {
-            get { return isConnected; }
-            set
-            {
-                isConnected = value;
-                NotifyPropertyChanged("IsConnected");
-            }
-        }
-
-        /// <summary>
         /// 撮影モード
         /// </summary>
         private int mode;
@@ -49,11 +35,16 @@ namespace ThetaUsbController.ViewModel
         public ICommand Connect { get; set; }
 
         /// <summary>
+        /// THETA
+        /// </summary>
+        private Theta theta;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public MainViewModel()
         {
-            IsConnected = false;
+            theta = Theta.GetInstance();
             Mode = (int)ThetaMode.StillCaptureMode;
 
             Connect = new DelegateCommand(connectExecute, null);
@@ -65,14 +56,13 @@ namespace ThetaUsbController.ViewModel
         /// <param name="param"></param>
         private void connectExecute(object param)
         {
-            if (IsConnected)
+            if (theta.IsConnected)
             {   // 切断する
-                Theta.Disconnect();
-                IsConnected = false;
+                theta.Disconnect();
             }
             else
             {   // 接続する
-                IsConnected = Theta.Connect();
+                theta.Connect();
             }
         }
     }

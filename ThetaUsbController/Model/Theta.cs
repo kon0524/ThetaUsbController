@@ -4,20 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpdMtpLib;
+using WpdMtpLib.DeviceProperty;
 
 namespace ThetaUsbController.Model
 {
-    public static class Theta
+    public class Theta
     {
         /// <summary>
         /// 露出値
         /// </summary>
-        public static int Ev
+        public int Ev
         {
             get
             {
                 int val = 0;
-                if (isConnected)
+                if (IsConnected)
                 {
                     MtpResponse res = mtp.Execute(MtpOperationCode.GetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ExposureBiasCompensation }, null);
                     val = (int)BitConverter.ToInt16(res.Data, 0);
@@ -27,7 +28,7 @@ namespace ThetaUsbController.Model
 
             set
             {
-                if (isConnected)
+                if (IsConnected)
                 {
                     mtp.Execute(MtpOperationCode.SetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ExposureBiasCompensation }, BitConverter.GetBytes(((short)value)));
                 }
@@ -37,26 +38,53 @@ namespace ThetaUsbController.Model
         /// <summary>
         /// 接続状態
         /// </summary>
-        private static bool isConnected = false;
+        public bool IsConnected { get; private set; }
 
         /// <summary>
         /// ストレージID
         /// </summary>
-        private static uint storageId = 0;
+        private uint storageId = 0;
 
         /// <summary>
         /// MTPオブジェクト
         /// </summary>
-        private static MtpCommand mtp = new MtpCommand();
+        private MtpCommand mtp;
+
+        /// <summary>
+        /// シングルトン
+        /// </summary>
+        private static Theta instance;
+
+        /// <summary>
+        /// シングルトンにする
+        /// </summary>
+        private Theta()
+        {
+            IsConnected = false;
+            mtp = new MtpCommand();
+        }
+
+        /// <summary>
+        /// インスタンス取得
+        /// </summary>
+        /// <returns></returns>
+        public static Theta GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new Theta();
+            }
+            return instance;
+        }
 
         /// <summary>
         /// Thetaに接続する
         /// </summary>
         /// <returns></returns>
-        public static bool Connect()
+        public bool Connect()
         {
             // 接続済みならtrueを返して終了
-            if (isConnected) { return true; }
+            if (IsConnected) { return true; }
 
             string thetaId = null;
             string[] ids = mtp.GetDeviceIds();
@@ -76,7 +104,7 @@ namespace ThetaUsbController.Model
 
             // Thetaに接続する
             mtp.Open(thetaId);
-            isConnected = true;
+            IsConnected = true;
 
             // 静止画撮影モードにする
             MtpResponse res;
@@ -95,14 +123,14 @@ namespace ThetaUsbController.Model
         /// <summary>
         /// Thetaから切断する
         /// </summary>
-        public static void Disconnect()
+        public void Disconnect()
         {
             // 接続していなければ終了
-            if (!isConnected) { return; }
+            if (!IsConnected) { return; }
 
             // 切断
             mtp.Close();
-            isConnected = false;
+            IsConnected = false;
 
             return;
         }
@@ -111,9 +139,9 @@ namespace ThetaUsbController.Model
         /// レリーズ押下
         /// </summary>
         /// <returns></returns>
-        public static bool Release()
+        public bool Release()
         {
-            if (isConnected)
+            if (IsConnected)
             {
                 mtp.Execute(MtpOperationCode.InitiateCapture, new uint[2] { 0, 0 }, null);
             }
