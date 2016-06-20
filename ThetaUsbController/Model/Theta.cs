@@ -35,6 +35,35 @@ namespace ThetaUsbController.Model
             }
         }
 
+        /// <summary>
+        /// ISO感度
+        /// </summary>
+        public short Iso
+        {
+            get
+            {
+                short iso = -1;
+                if (IsConnected)
+                {
+                    MtpResponse res = mtp.Execute(MtpOperationCode.GetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ExposureIndex }, null);
+                    iso = BitConverter.ToInt16(res.Data, 0);
+                }
+                return iso;
+            }
+
+            set
+            {
+                if (IsConnected)
+                {
+                    ExposureProgramMode mode = Program;
+                    if (mode == ExposureProgramMode.IsoPriorityProgram || mode == ExposureProgramMode.ManualProgram)
+                    {
+                        mtp.Execute(MtpOperationCode.SetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ExposureIndex }, BitConverter.GetBytes(value));
+                    }
+                }
+            }
+        }
+
 
 
         /// <summary>
