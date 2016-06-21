@@ -129,6 +129,23 @@ namespace ThetaUsbController.ViewModel
         }
 
         /// <summary>
+        /// ホワイトバランス
+        /// </summary>
+        private ushort[] supportedWhiteBalance = { 0x0002, 0x0004, 0x8001, 0x8002, 0x0006, 0x8020, 0x8003, 0x8004, 0x8005, 0x8006, };
+        public ushort Wb
+        {
+            get
+            {
+                return (ushort)Array.IndexOf(supportedWhiteBalance, (ushort)theta.Wb);
+            }
+
+            set
+            {
+                theta.Wb = (WhiteBalance)supportedWhiteBalance[value];
+            }
+        }
+
+        /// <summary>
         /// レリーズ
         /// </summary>
         public ICommand Release { get; set; }

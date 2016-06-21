@@ -102,9 +102,17 @@
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <Label DockPanel.Dock="Left" Content="ホワイトバランス" Width="80" />
-            <ComboBox>
-                <ComboBoxItem Content="オート" IsSelected="True" />
-                <ComboBoxItem Content="晴天" />
+            <ComboBox SelectedIndex="{Binding Wb}">
+                <ComboBoxItem Content="AUTO" />
+                <ComboBoxItem Content="屋外" />
+                <ComboBoxItem Content="日陰" />
+                <ComboBoxItem Content="曇天" />
+                <ComboBoxItem Content="白熱灯1" />
+                <ComboBoxItem Content="白熱灯2" />
+                <ComboBoxItem Content="蛍光灯1(昼光色)" />
+                <ComboBoxItem Content="蛍光灯2(昼白色)" />
+                <ComboBoxItem Content="蛍光灯3(白色)" />
+                <ComboBoxItem Content="蛍光灯4(電球色)" />
             </ComboBox>
         </DockPanel>
         <Button Content="撮影" Command="{Binding Release}" />

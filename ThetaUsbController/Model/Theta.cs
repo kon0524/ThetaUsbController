@@ -120,6 +120,31 @@ namespace ThetaUsbController.Model
         }
 
         /// <summary>
+        /// ホワイトバランス
+        /// </summary>
+        public WhiteBalance Wb
+        {
+            get
+            {
+                WhiteBalance wb = WhiteBalance.Automatic;
+                if (IsConnected)
+                {
+                    MtpResponse res = mtp.Execute(MtpOperationCode.GetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.WhiteBalance }, null);
+                    wb = (WhiteBalance)BitConverter.ToUInt16(res.Data, 0);
+                }
+                return wb;
+            }
+
+            set
+            {
+                if (IsConnected)
+                {
+                    mtp.Execute(MtpOperationCode.SetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.WhiteBalance }, BitConverter.GetBytes(((ushort)value)));
+                }
+            }
+        }
+
+        /// <summary>
         /// 接続状態
         /// </summary>
         public bool IsConnected { get; private set; }
