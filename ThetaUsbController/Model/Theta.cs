@@ -11,6 +11,31 @@ namespace ThetaUsbController.Model
     public class Theta
     {
         /// <summary>
+        /// 撮影モード
+        /// </summary>
+        public StillCaptureMode CaptureMode
+        {
+            get
+            {
+                StillCaptureMode mode = StillCaptureMode.Single;
+                if (IsConnected)
+                {
+                    MtpResponse res = mtp.Execute(MtpOperationCode.GetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.StillCaptureMode }, null);
+                    mode = (StillCaptureMode)BitConverter.ToUInt16(res.Data, 0);
+                }
+                return mode;
+            }
+
+            set
+            {
+                if (IsConnected)
+                {
+                    mtp.Execute(MtpOperationCode.SetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.StillCaptureMode }, BitConverter.GetBytes(((ushort)value)));
+                }
+            }
+        }
+
+        /// <summary>
         /// 露出プログラム
         /// </summary>
         public ExposureProgramMode Program
@@ -252,7 +277,24 @@ namespace ThetaUsbController.Model
         {
             if (IsConnected)
             {
-                mtp.Execute(MtpOperationCode.InitiateCapture, new uint[2] { 0, 0 }, null);
+                StillCaptureMode mode = CaptureMode;
+                if (mode == StillCaptureMode.Single)
+                {
+                    mtp.Execute(MtpOperationCode.InitiateCapture, new uint[2] { 0, 0 }, null);
+                }
+                else
+                {
+                    MtpResponse res = mtp.Execute(MtpOperationCode.GetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.CaptureStatus }, null);
+                    ushort status = BitConverter.ToUInt16(res.Data, 0);
+                    if (status == 0x00)
+                    {   // 待機中
+                        mtp.Execute(MtpOperationCode.InitiateOpenCapture, new uint[2] { 0, 0 }, null);
+                    }
+                    else
+                    {   // 撮影中
+                        mtp.Execute(MtpOperationCode.TerminateOpenCapture, new uint[1] { 0xFFFFFFFF }, null);
+                    }
+                }
             }
             return true;
         }

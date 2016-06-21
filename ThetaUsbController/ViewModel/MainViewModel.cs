@@ -1,5 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using ThetaUsbController.Model;
+using WpdMtpLib.DeviceProperty;
 
 namespace ThetaUsbController.ViewModel
 {
@@ -19,13 +21,21 @@ namespace ThetaUsbController.ViewModel
         /// <summary>
         /// 撮影モード
         /// </summary>
-        private int mode;
-        public int Mode
+        private ushort[] supportedCaptureMode = { 0x0001, 0x8002 }; // 0x0003はインターバルだがまだ未対応
+        public ushort Mode
         {
-            get { return mode; }
+            get 
+            {
+                StillCaptureMode mode = theta.CaptureMode;
+                if (mode == StillCaptureMode.Interval)
+                {
+                    mode = StillCaptureMode.Single;
+                }
+                return (ushort)Array.IndexOf(supportedCaptureMode, (ushort)mode);
+            }
             set
             {
-                mode = value;
+                theta.CaptureMode = (StillCaptureMode)supportedCaptureMode[value];
                 NotifyPropertyChanged("Mode");
             }
         }
