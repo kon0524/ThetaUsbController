@@ -146,11 +146,6 @@ namespace ThetaUsbController.ViewModel
         }
 
         /// <summary>
-        /// レリーズ
-        /// </summary>
-        public ICommand Release { get; set; }
-
-        /// <summary>
         /// 露出のサポート値
         /// </summary>
         private int[] supportedEvValue = new int[] { -2000, -1700, -1300, -1000, -700, -300, 0, 300, 700, 1000, 1300, 1700, 2000 };
@@ -168,26 +163,6 @@ namespace ThetaUsbController.ViewModel
             theta = Theta.GetInstance();
             ExposureProgram = 1;
             EvPos = 6;
-            Release = new DelegateCommand(releaseExecute, null);
         }
-
-        /// <summary>
-        /// レリーズ押下
-        /// </summary>
-        /// <param name="param"></param>
-        private void releaseExecute(object param)
-        {
-            theta.Release();
-        }
-
-        /// <summary>
-        /// ISO感度内部クラス
-        /// </summary>
-        public class IsoValue
-        {
-            public int ExposureIndex { get; set; }
-            public string Name { get; set; }
-        }
-
     }
 }

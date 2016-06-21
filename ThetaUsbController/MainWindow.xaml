@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:ThetaUsbController"
         xmlns:view="clr-namespace:ThetaUsbController.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="300">
+        Title="{Binding WindowTitle}" Height="350" Width="300">
     
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <Button Content="接続・切断" Command="{Binding Connect}" />
         </StackPanel>
-        <TabControl SelectedIndex="{Binding Mode}">
+        <TabControl SelectedIndex="{Binding Mode}" DockPanel.Dock="Top">
             <TabItem Header="静止画" Width="80" Name="StillCaptureMode">
                 <view:StillCaptureControll x:Name="StillCaptureControl" />
             </TabItem>
@@ -20,5 +20,6 @@
                 <view:MovieControll x:Name="MovieControl" />
             </TabItem>
         </TabControl>
+        <Button Content="撮影" Command="{Binding Release}" />
     </DockPanel>
 </Window>

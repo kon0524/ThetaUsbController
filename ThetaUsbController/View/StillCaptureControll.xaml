@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="150" d:DesignWidth="300">
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <Label DockPanel.Dock="Left" Content="撮影モード" Width="80" />
+            <Label DockPanel.Dock="Left" Content="撮影モード" Width="100" />
             <ComboBox SelectedIndex="{Binding ExposureProgram}">
                 <ComboBoxItem Content="マニュアル" />
                 <ComboBoxItem Content="ノーマル" />
@@ -16,7 +16,7 @@
             </ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <Label DockPanel.Dock="Left" Content="ISO感度" Width="80" />
+            <Label DockPanel.Dock="Left" Content="ISO感度" Width="100" />
             <ComboBox SelectedIndex="{Binding SelectedIsoIndex}" IsEnabled="{Binding EnableIso}">
                 <ComboBoxItem Content="ISO100" />
                 <ComboBoxItem Content="ISO125" />
@@ -35,7 +35,7 @@
             </ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <Label DockPanel.Dock="Left" Content="シャッター速度" Width="80" />
+            <Label DockPanel.Dock="Left" Content="シャッター速度" Width="100" />
             <ComboBox SelectedIndex="{Binding SelectedShutterSpeedIndex}" IsEnabled="{Binding EnableShutterSpeed}">
                 <ComboBoxItem Content="1/6400" />
                 <ComboBoxItem Content="1/5000" />
@@ -96,12 +96,12 @@
             </ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <Label DockPanel.Dock="Left" Content="露出" Width="40" />
-            <TextBlock DockPanel.Dock="Left" Text="{Binding Ev}" Width="40" VerticalAlignment="Center" />
+            <Label DockPanel.Dock="Left" Content="露出" Width="50" />
+            <TextBlock DockPanel.Dock="Left" Text="{Binding Ev}" Width="50" VerticalAlignment="Center" />
             <Slider Minimum="0" Maximum="12" Value="{Binding EvPos}" TickFrequency="1" SmallChange="1" LargeChange="1" IsSnapToTickEnabled="True" />
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <Label DockPanel.Dock="Left" Content="ホワイトバランス" Width="80" />
+            <Label DockPanel.Dock="Left" Content="ホワイトバランス" Width="120" />
             <ComboBox SelectedIndex="{Binding Wb}">
                 <ComboBoxItem Content="AUTO" />
                 <ComboBoxItem Content="屋外" />
@@ -115,6 +115,5 @@
                 <ComboBoxItem Content="蛍光灯4(電球色)" />
             </ComboBox>
         </DockPanel>
-        <Button Content="撮影" Command="{Binding Release}" />
     </DockPanel>
 </UserControl>
