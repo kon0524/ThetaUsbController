@@ -34,6 +34,8 @@ namespace ThetaUsbController.ViewModel
                 NotifyPropertyChanged("ExposureProgram");
                 NotifyPropertyChanged("SelectedIsoIndex");
                 NotifyPropertyChanged("EnableIso");
+                NotifyPropertyChanged("SelectedShutterSpeedIndex");
+                NotifyPropertyChanged("EnableShutterSpeed");
             }
         }
 
@@ -58,6 +60,44 @@ namespace ThetaUsbController.ViewModel
             set
             {
                 theta.Iso = supportedIso[value];
+            }
+        }
+        
+        /// <summary>
+        /// シャッター速度
+        /// </summary>
+        private ulong[] supportedShutterSpeed = 
+        {
+            0x0000190000000001,0x0000138800000001,0x00000FA000000001,0x00000C8000000001,0x000009C400000001,
+            0x000007D000000001,0x0000064000000001,0x000004E200000001,0x000003E800000001,0x0000032000000001,
+            0x0000028000000001,0x000001F400000001,0x0000019000000001,0x0000014000000001,0x000000FA00000001,
+            0x000000C800000001,0x000000A000000001,0x0000007D00000001,0x0000006400000001,0x0000005000000001,
+            0x0000003C00000001,0x0000003200000001,0x0000002800000001,0x0000001E00000001,0x0000001900000001,
+            0x0000001400000001,0x0000000F00000001,0x0000000D00000001,0x0000000A00000001,0x0000000800000001,
+            0x0000000600000001,0x0000000500000001,0x0000000400000001,0x0000000300000001,0x000000190000000A,
+            0x0000000200000001,0x000000100000000A,0x0000000D0000000A,0x0000000100000001,0x0000000A0000000D,
+            0x000000100000000A,0x0000000100000002,0x0000000A00000019,0x0000000A00000020,0x0000000100000004,
+            0x0000000100000005,0x0000000100000006,0x0000000100000008,0x000000010000000A,0x000000010000000D,
+            0x000000010000000F,0x0000000100000014,0x0000000100000019,0x000000010000001E,0x000000010000003C,
+            0x0000000000000000
+        };
+        public bool EnableShutterSpeed
+        {
+            get
+            {
+                ExposureProgramMode program = theta.Program;
+                return (program == ExposureProgramMode.ShutterPriorityProgram) || (program == ExposureProgramMode.ManualProgram);
+            }
+        }
+        public int SelectedShutterSpeedIndex
+        {
+            get
+            {
+                return Array.IndexOf(supportedShutterSpeed, theta.Shutter);
+            }
+            set
+            {
+                theta.Shutter = supportedShutterSpeed[value];
             }
         }
 

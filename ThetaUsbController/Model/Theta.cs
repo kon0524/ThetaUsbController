@@ -64,7 +64,35 @@ namespace ThetaUsbController.Model
             }
         }
 
+        /// <summary>
+        /// シャッター速度
+        /// </summary>
+        public ulong Shutter
+        {
+            get
+            {
+                ulong shutter = ShutterSpeed.SS_AUTO;
+                if (IsConnected)
+                {
+                    MtpResponse res = mtp.Execute(MtpOperationCode.GetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ShutterSpeed }, null);
+                    ShutterSpeed ss = new ShutterSpeed(res.Data);
+                    shutter = ss.Current;
+                }
+                return shutter;
+            }
 
+            set
+            {
+                if (IsConnected)
+                {
+                    ExposureProgramMode mode = Program;
+                    if (mode == ExposureProgramMode.ShutterPriorityProgram || mode == ExposureProgramMode.ManualProgram)
+                    {
+                        mtp.Execute(MtpOperationCode.SetDevicePropValue, new uint[1] { (uint)MtpDevicePropCode.ShutterSpeed }, BitConverter.GetBytes(value));
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 露出値
